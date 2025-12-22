@@ -1,0 +1,18 @@
+{
+  "targets": [
+    { "type": "country", "id": "ARG", "name": "Argentina" },
+    { "type": "country", "id": "BOL", "name": "Bolivia" },
+    { "type": "country", "id": "BRA", "name": "Brasilien" },
+    { "type": "country", "id": "CHL", "name": "Chile" },
+    { "type": "country", "id": "COL", "name": "Colombia" },
+    { "type": "country", "id": "ECU", "name": "Ecuador" },
+    { "type": "country", "id": "GUY", "name": "Guyana" },
+    { "type": "country", "id": "PRY", "name": "Paraguay" },
+    { "type": "country", "id": "PER", "name": "Peru" },
+    { "type": "country", "id": "SUR", "name": "Surinam" },
+    { "type": "country", "id": "URY", "name": "Uruguay" },
+    { "type": "country", "id": "VEN", "name": "Venezuela" }
+
+
+  ]
+}

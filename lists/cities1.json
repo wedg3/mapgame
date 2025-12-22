@@ -1,0 +1,40 @@
+{
+  "targets": [
+    { "type": "city", "id": "tokyo", "name": "Tokyo" },
+    { "type": "city", "id": "delhi", "name": "Delhi" },
+    { "type": "city", "id": "shanghai", "name": "Shanghai" },
+    { "type": "city", "id": "beijing", "name": "Peking" },
+    { "type": "city", "id": "mumbai", "name": "Mumbai" },
+    { "type": "city", "id": "dhaka", "name": "Dhaka" },
+    { "type": "city", "id": "karachi", "name": "Karachi" },
+    { "type": "city", "id": "osaka", "name": "Osaka" },
+    { "type": "city", "id": "chongqing", "name": "Chongqing" },
+    { "type": "city", "id": "istanbul", "name": "Istanbul" },
+    { "type": "city", "id": "kolkata", "name": "Kolkata" },
+    { "type": "city", "id": "manila", "name": "Manila" },
+    { "type": "city", "id": "bangkok", "name": "Bangkok" },
+    { "type": "city", "id": "tehran", "name": "Teheran" },
+    { "type": "city", "id": "jakarta", "name": "Jakarta" },
+    { "type": "city", "id": "seoul", "name": "Seoul" },
+
+    { "type": "city", "id": "cairo", "name": "Kairo" },
+    { "type": "city", "id": "kinshasa", "name": "Kinshasa" },
+    { "type": "city", "id": "lagos", "name": "Lagos" },
+
+    { "type": "city", "id": "moscow", "name": "Moskva" },
+    { "type": "city", "id": "london", "name": "London" },
+    { "type": "city", "id": "paris", "name": "Paris" },
+
+    { "type": "city", "id": "new-york-city", "name": "New York" },
+    { "type": "city", "id": "los-angeles", "name": "Los Angeles" },
+    { "type": "city", "id": "mexico-city", "name": "Mexico City" },
+
+    { "type": "city", "id": "sao-paulo", "name": "São Paulo" },
+    { "type": "city", "id": "buenos-aires", "name": "Buenos Aires" },
+    { "type": "city", "id": "rio-de-janeiro", "name": "Rio de Janeiro" },
+    { "type": "city", "id": "lima", "name": "Lima" },
+    { "type": "city", "id": "bogota", "name": "Bogotá" },
+
+    { "type": "city", "id": "sydney", "name": "Sydney" }
+  ]
+}

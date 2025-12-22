@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Namngeografi</title>
+  <style>
+    html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#0b1220; }
+
+    #hud{
+      position: fixed;
+      left: 12px;
+      bottom: 12px;
+      top: auto;
+      z-index: 10;
+
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      letter-spacing: 1px;
+      color: #e9f3ff;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,1);
+      border-radius: 12px;
+      padding: 10px 12px;
+      backdrop-filter: blur(6px);
+      max-width: min(620px, calc(100vw - 24px));
+      user-select: none;
+    }
+
+    #targetBar{
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+
+      padding: 6px 10px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,1);
+      backdrop-filter: blur(6px);
+
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: #e9f3ff;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 1.8px;
+      user-select: none;
+      max-width: min(700px, calc(100vw - 24px));
+      text-align: center;
+    }
+
+    #hud b { font-weight: 700; }
+    #small { opacity:.85; font-size: 12px; line-height: 1.3; }
+    #status {
+      position: fixed;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+
+      padding: 10px 14px;
+
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: #e9f3ff;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      user-select: none;
+      max-width: min(700px, calc(100vw - 24px));
+      text-align: center;
+    }
+
+/* Popup label shown at pointer on wrong clicks */
+#clickLabel{
+  position: fixed;
+  left: 0; top: 0;
+  transform: translate(-50%, -120%);
+  z-index: 9000;
+  pointer-events: none;
+
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: .3px;
+
+  color: #e9f3ff;
+  background: rgba(0,0,0,.55);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(6px);
+  text-shadow: 0 2px 10px rgba(0,0,0,.55);
+
+  opacity: 0;
+  transition: opacity 140ms ease;
+  white-space: nowrap;
+}
+
+
+/* Fullscreen end overlay: add a subtle animated glow + vignette */
+#end{
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        color: #e9f3ff;
+  display: none;
+  position: fixed; inset: 0; z-index: 20;
+  background:
+    radial-gradient(1200px 600px at 50% 35%, rgba(74,210,255,.18), transparent 40%),
+    radial-gradient(900px 500px at 50% 70%, rgba(163,255,74,.10), transparent 45%),
+    rgba(0,0,0,.42);
+  backdrop-filter: blur(3px);
+}
+
+/* Spectacular card */
+#endCard{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: min(520px, calc(100vw - 28px));
+  padding: 22px 22px 18px;
+
+  text-align: center;
+
+  border-radius: 22px;
+
+  /* layered glass + shine */
+  background:
+    radial-gradient(1200px 600px at 50% -20%, rgba(255,255,255,.18), transparent 55%),
+    radial-gradient(900px 500px at 50% 110%, rgba(74,210,255,.12), transparent 55%),
+    linear-gradient(180deg, rgba(16,30,60,.92), rgba(10,18,40,.62));
+
+  border: 1px solid rgba(255,255,255,.16);
+
+}
+
+
+/* Bigger, bolder title */
+#endCard h2{
+  margin: 0 0 10px 0;
+  font-size: 26px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-shadow: 0 10px 28px rgba(0,0,0,.55);
+}
+
+/* Make the score line HUGE and shiny */
+#scoreLine{
+  margin: 10px 0 6px;
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+
+  /* shiny gradient text */
+  background: linear-gradient(90deg,
+    rgba(255,255,255,1),
+    rgba(74,210,255,1),
+    rgba(163,255,74,1),
+    rgba(255,255,255,1)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  text-shadow:
+    0 16px 40px rgba(0,0,0,.50),
+    0 0 16px rgba(74,210,255,.18);
+
+
+}
+
+#detailLine{
+  margin: 6px 0 10px;
+  opacity: .92;
+  font-size: 14px;
+  letter-spacing: .4px;
+}
+
+/* Buttons: bigger + neon hover */
+#endCard button{
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.22);
+
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(255,255,255,.16), transparent 55%),
+    rgba(74, 210, 255, .18);
+
+  color: #e9f3ff;
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: .6px;
+  min-width: 160px;
+
+
+}
+
+#endCard button:hover{
+  transform: translateY(-1px) scale(1.02);
+  box-shadow:
+    0 18px 46px rgba(0,0,0,.45),
+    0 0 26px rgba(74,210,255,.22);
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(255,255,255,.18), transparent 55%),
+    rgba(74, 210, 255, .28);
+}
+
+#endCard button:active{
+  transform: translateY(0px) scale(0.99);
+}
+
+
+
+
+    #focusHint {
+      position: fixed; right: 12px; top: 12px; z-index: 10;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: #e9f3ff; background: rgba(0,0,0,.30);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px; padding: 8px 10px;
+      font-size: 12px; opacity: 0.85;
+      user-select: none;
+    }
+    #focusHint.hidden { display:none; }
+
+    #crosshair{
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 34px;
+      height: 34px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 8000;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      background-image: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff);
+      background-size: 2px 34px, 34px 2px;
+      background-position: center, center;
+      filter: drop-shadow(0 0 2px rgba(0,0,0,.7));
+      opacity: 0.95;
+      display: none;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+  <div id="targetBar">
+    <span id="target">Loading…</span>
+  </div>
+  <div id="status"></div>
+
+  <div id="hud">
+    <div id="small">
+      <b>Move:</b>&nbsp;&nbsp; <b>WASD</b> or <b>Arrows</b> or <b>Mousedrag</b><br>
+      <b>Zoom in/out:</b>&nbsp;&nbsp; <b>E / Q</b> or <b>mousewheel</b><br>
+      <b>Select:</b>&nbsp;&nbsp; <b>Space</b> or <b>Enter</b><br>
+      <span id="tries" style="display:none";>3</span>
+    </div>
+  </div>
+
+  <div id="crosshair"></div>
+  <div id="clickLabel"></div>
+
+  <div id="focusHint" class="hidden">Click once to focus controls</div>
+
+  <div id="end">
+    <div id="endCard">
+      <h2>Finished!</h2>
+      <p id="scoreLine"></p>
+      <p id="detailLine"></p>
+      <button id="playAgain">Play again</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/pixi.js@8.6.6/dist/pixi.min.js"></script>
+
+  <script>
+  (async function () {
+    /**
+     * UNIVERSALIZATION GOALS (implemented):
+     * - Support 1+ GeoJSON files (via list.json "maps" OR URL param "maps=...,...")
+     * - Treat ALL selectable things as "shapes" (polygons/multipolygons) coming from GeoJSON
+     * - List targets match shapes by a generic key (id/name/label), NOT "country" specific
+     * - Rendering, hover, hit-testing, 3-tries feedback all apply to any shape
+     *
+     * LIST FORMAT (backwards compatible-ish):
+     *  - Preferred:
+     *    {
+     *      "maps": ["data/countries.geojson", "data/cities_polygons.geojson"],
+     *      "targets": [
+     *        { "id":"ARG", "name":"Argentina" },
+     *        { "id":"ALPS", "label":"The Alps" }
+     *      ]
+     *    }
+     *
+     *  - Minimal:
+     *    { "targets":[{"id":"ARG"}] }
+     *
+     * URL PARAMS:
+     *  - ?list=lists/demo.json
+     *  - ?maps=data/a.geojson,data/b.geojson   (comma-separated)
+     *  - (legacy) ?map=data/countries.geojson  (single)
+     */
+
+    const LIST_URL_DEFAULT = "lists/demo.json";
+    const GEOJSON_URL_DEFAULT = "data/countries.geojson"; // used if list doesn't define maps
+
+    const applause = new Audio("assets/applause.mp3");
+    applause.preload = "auto";
+    applause.volume = 0.7;
+
+
+    const COLORS = {
+      sea:        0x1298b3,
+      fillFallback: 0x256344,
+      stroke:     0x000000,
+      hoverFill:  0xffffff,
+      wrongFill:  0xff4d4d,
+
+      // 3-tries result fills
+      hit1Fill:   0x02fa3c,
+      hit2Fill:   0xffa200,
+      hit3Fill:   0xffa200,
+      failFill:   0xf52222
+    };
+
+    const BASE_COLORS = [
+      0x6b8e6e, 0x8b7d6b, 0x5f7f8a, 0x7c8b6f, 0x8a6f5a,
+      0x6f7f6b, 0x8b8c7a, 0x5f6f7f, 0x7f6f5f, 0x6f8b8b,
+      0x7a8f5f, 0x8f7f6f, 0x5f8a6f, 0x6f6f8b, 0x8b6f6f,
+      0x6f8f7f, 0x7f8a9a, 0x8a8f6f, 0x6b7f5f, 0x9a8f7a
+    ];
+	
+	// Fixed semantic colors (tune as you like)
+const FIXED_KIND_COLORS = {
+  mountains: 0x7a5a3a,
+  mountain:  0x7a5a3a,
+  range:     0x7a5a3a,
+  desert:     0xfffcba,
+  
+  river:     0x2a7bd6,
+  rivers:    0x2a7bd6,
+  lake:      0x2a7bd6,
+  water:     0x2a7bd6,
+  sea:     0x2a7bd6,
+
+  coastline: 0x3aa17a,
+  land:      0x57b378,
+  city:   0x000001
+};
+
+// Opacity rules: only these categories get lower alpha
+const ALPHA_BY_KIND = {
+  river: 0.68,
+  rivers: 0.68,
+  ocean: 0.2,
+  sea: 0.15,
+  range: 0.85,
+    desert: 0.45,
+  mountain_range: 0.45,
+  mountain: 0.45,
+  mountains: 0.45
+};
+
+// Compute alpha for a shape based on inferred kind/category (no if/else required)
+function alphaForShape(shape) {
+  const kind = inferKindFromProps(shape.props || {});
+  return ALPHA_BY_KIND[kind] ?? 1;
+}
+
+function strokeAlphaForShape(shape) {
+  const kind = inferKindFromProps(shape.props || {});
+  // no edges for these natural features
+  return (kind === "river" || kind === "rivers" || kind === "desert" || kind === "ocean" || kind === "sea" ||
+          kind === "range" || kind === "mountain_range" || kind === "mountain" || kind === "mountains")
+    ? 0
+    : 1;
+}
+
+
+// accepts "#RRGGBB" or "RRGGBB" or number
+function parseColorToHex(c) {
+  if (c == null) return null;
+  if (typeof c === "number" && Number.isFinite(c)) return c;
+  const s = String(c).trim();
+  const m = s.match(/^#?([0-9a-fA-F]{6})$/);
+  if (!m) return null;
+  return parseInt(m[1], 16);
+}
+
+// Try to infer a "kind" from common Natural Earth / GIS fields.
+// You can expand this once you see your property names.
+function inferKindFromProps(props = {}) {
+  const candidates = [
+    props.kind, props.type, props.category, props.feature,
+    props.featurecla, props.fclass, props.class, props.layer
+  ].filter(Boolean).map(v => String(v).trim().toLowerCase());
+
+  // Join all text to allow simple keyword checks
+  const blob = candidates.join(" | ");
+
+  if (blob.includes("river")) return "river";
+    if (blob.includes("sea")) return "sea";
+  if (blob.includes("mount")) return "mountain";
+  if (blob.includes("range")) return "range";
+   if (blob.includes("desert")) return "desert";
+  if (blob.includes("coast")) return "coastline";
+  if (blob.includes("lake")) return "lake";
+  if (blob.includes("water")) return "water";
+  if (blob.includes("land")) return "land";
+  if (blob.includes("country")) return "country";
+    if (blob.includes("city")) return "city";
+
+  return null;
+}
+
+function fixedColorForShape(shape) {
+  const props = shape.props || {};
+
+  // 1) explicit feature color override
+  const explicit =
+    parseColorToHex(props.color) ??
+    parseColorToHex(props.fill) ??
+    parseColorToHex(props.strokeColor);
+  if (explicit != null) return explicit;
+
+  // 2) infer kind and apply fixed palette
+  const kind = inferKindFromProps(props);
+  if (kind && FIXED_KIND_COLORS[kind] != null) return FIXED_KIND_COLORS[kind];
+
+  return null;
+}
+
+
+    // Projection space (same as before)
+    const WORLD_W = 2048;
+    const WORLD_H = 1324;
+
+    const PAN_ACCEL = 10200;
+    const PAN_DAMP  = 12;
+    const MAX_SPEED = 19200;
+
+    const ZOOM_RATE = 4;
+    const MIN_ZOOM = 0.6;
+    const MAX_ZOOM = 8;
+
+    const FEEDBACK_PAUSE_MS = 150;
+    let inputLockedUntil = 0;
+
+    const params = new URLSearchParams(location.search);
+    const listUrl = params.get("list") || LIST_URL_DEFAULT;
+
+    // "maps" param can override list maps (comma-separated)
+    const mapsParam = params.get("maps");
+    // legacy: "map" param single
+    const legacyMap = params.get("map");
+
+    const app = new PIXI.Application();
+    await app.init({
+      backgroundColor: COLORS.sea,
+      resizeTo: window,
+      antialias: false,
+      resolution: Math.min(2, window.devicePixelRatio || 1),
+      autoDensity: true
+    });
+    document.body.appendChild(app.canvas);
+
+    // focus for keyboard
+    app.canvas.tabIndex = 0;
+    app.canvas.style.outline = "none";
+
+    const focusHint = document.getElementById("focusHint");
+    const showFocusHint = () => focusHint.classList.remove("hidden");
+    const hideFocusHint = () => focusHint.classList.add("hidden");
+    app.canvas.addEventListener("blur", showFocusHint);
+    app.canvas.addEventListener("focus", hideFocusHint);
+    showFocusHint();
+
+    const stage = app.stage;
+    const world = new PIXI.Container();
+    stage.addChild(world);
+
+    const mapGfx   = new PIXI.Graphics();
+    const hoverGfx = new PIXI.Graphics();
+    world.addChild(mapGfx, hoverGfx);
+
+    // Projection (assumes lon/lat GeoJSON; if you later add projected coords, add a flag per map)
+    function projectLonLat(lon, lat) {
+      const x = (lon + 180) / 360 * WORLD_W;
+      const y = (90 - lat) / 180 * WORLD_H;
+      return { x, y };
+    }
+
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+    function fitWorldToScreen() {
+      const s = Math.min(window.innerWidth / WORLD_W, window.innerHeight / WORLD_H) * 2;
+      world.scale.set(s);
+      world.x = (window.innerWidth  - WORLD_W * s) / 2;
+      world.y = (window.innerHeight - WORLD_H * s) / 2;
+    }
+    fitWorldToScreen();
+    window.addEventListener("resize", fitWorldToScreen);
+
+    function clampPanToScreen(pad = 40) {
+      const sw = app.screen.width;
+      const sh = app.screen.height;
+      const w = WORLD_W * world.scale.x;
+      const h = WORLD_H * world.scale.y;
+
+      if (w <= sw) world.x = (sw - w) / 2;
+      else {
+        const minX = sw - w - pad;
+        const maxX = pad;
+        world.x = clamp(world.x, minX, maxX);
+      }
+
+      if (h <= sh) world.y = (sh - h) / 2;
+      else {
+        const minY = sh - h - pad;
+        const maxY = pad;
+        world.y = clamp(world.y, minY, maxY);
+      }
+    }
+
+    // Pointer tracking
+    let pointerScreenX = window.innerWidth / 2;
+    let pointerScreenY = window.innerHeight / 2;
+
+    app.canvas.addEventListener("pointermove", (e) => {
+      const r = app.canvas.getBoundingClientRect();
+      pointerScreenX = e.clientX - r.left;
+      pointerScreenY = e.clientY - r.top;
+
+      // drag-pan (screen delta)
+      if (isDragging) {
+        const dx = e.clientX - dragLastX;
+        const dy = e.clientY - dragLastY;
+        dragLastX = e.clientX;
+        dragLastY = e.clientY;
+
+        world.x += dx;
+        world.y += dy;
+        clampPanToScreen();
+      }
+    });
+
+    function pointerToWorld() {
+      const x = (pointerScreenX - world.x) / world.scale.x;
+      const y = (pointerScreenY - world.y) / world.scale.y;
+      return { x, y };
+    }
+
+    // --- Mouse wheel zoom (alternative control) ---
+app.canvas.addEventListener("wheel", (e) => {
+  e.preventDefault();
+
+  // wheel down -> zoom out, wheel up -> zoom in
+  const dir = (e.deltaY < 0) ? 1 : -1;
+
+  // smooth-ish factor; clamp so trackpads aren't insane
+  const amt = clamp(Math.abs(e.deltaY) / 500, 0.08, 0.35);
+  const factor = Math.exp(dir * amt);
+
+  const before = pointerToWorld();
+  const newScale = clamp(world.scale.x * factor, MIN_ZOOM, MAX_ZOOM);
+  world.scale.set(newScale);
+
+  const after = pointerToWorld();
+  world.x += (after.x - before.x) * world.scale.x;
+  world.y += (after.y - before.y) * world.scale.y;
+
+  clampPanToScreen();
+
+  // re-draw borders if zoom changed
+  drawMap();
+}, { passive: false });
+
+
+// --- Mouse drag panning (alternative control) ---
+  let isDragging = false;
+  let dragLastX = 0, dragLastY = 0;
+
+  app.canvas.addEventListener("pointerdown", (e) => {
+    // focus only; dragging pans
+    app.canvas.focus();
+    isDragging = true;
+    dragLastX = e.clientX;
+    dragLastY = e.clientY;
+    try { app.canvas.setPointerCapture(e.pointerId); } catch {}
+  });
+
+  app.canvas.addEventListener("pointerup", (e) => {
+    isDragging = false;
+    try { app.canvas.releasePointerCapture(e.pointerId); } catch {}
+  });
+
+  app.canvas.addEventListener("pointercancel", () => { isDragging = false; });
+  app.canvas.addEventListener("pointerleave",  () => { isDragging = false; });
+
+
+    // Audio (unchanged)
+    let audioCtx = null;
+    function ensureAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+    }
+    function beep(freq = 320, dur = 1, type = "square", gainVal = 0.95) {
+      try {
+        ensureAudio();
+        const t0 = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, t0);
+        gain.gain.setValueAtTime(gainVal, t0);
+        gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(t0);
+        osc.stop(t0 + dur);
+      } catch {}
+    }
+    function successChime() {
+      try {
+        ensureAudio();
+        const t0 = audioCtx.currentTime;
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc1.type = "triangle";
+        osc2.type = "triangle";
+        osc1.frequency.setValueAtTime(880, t0);
+        osc2.frequency.setValueAtTime(1320, t0 + 0.06);
+        gain.gain.setValueAtTime(0.05, t0);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.25);
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc1.start(t0); osc1.stop(t0 + 0.12);
+        osc2.start(t0 + 0.06); osc2.stop(t0 + 0.25);
+      } catch {}
+    }
+
+// --- Lightweight confetti (canvas, short burst) ---
+let confettiCleanup = null;
+
+function launchConfettiBurst() {
+  if (confettiCleanup) confettiCleanup();
+
+  const canvas = document.createElement("canvas");
+  canvas.style.position = "fixed";
+  canvas.style.inset = "0";
+  canvas.style.pointerEvents = "none";
+  canvas.style.zIndex = "9999";
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d", { alpha: true });
+
+  // keep it reasonable
+  const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+
+  function resize() {
+    canvas.width  = Math.floor(innerWidth * dpr);
+    canvas.height = Math.floor(innerHeight * dpr);
+  }
+  resize();
+
+  const onResize = () => resize();
+  window.addEventListener("resize", onResize);
+
+  const W = () => canvas.width;
+  const H = () => canvas.height;
+
+if (Math.random() < 0.35) {
+  const p = parts[parts.length - 1];
+  const t = (1.5 + Math.random() * 2.5) * dpr;
+  p.h = t;
+  p.w = t * (6 + Math.random() * 10);
+}
+
+
+  // particle count (same as before)
+  const N = Math.min(120, Math.max(50, Math.floor(innerWidth / 18)));
+
+  // ✅ Golden palette
+  const gold = [
+    "#FFF6C2", // pale gold
+    "#FFE08A", // warm gold
+    "#FFD34D", // bright gold
+    "#FFB84A", // orange gold
+    "#C9A227"  // deep gold
+  ];
+
+  const parts = [];
+  for (let i = 0; i < N; i++) {
+    const x = (Math.random() * innerWidth) * dpr;
+    const y = (-20 - Math.random() * 120) * dpr;
+
+    // ✅ slower launch speeds (gentler)
+    const speed = (3.2 + Math.random() * 3.6) * dpr; // was ~6..13
+    const angle = (-Math.PI / 2) + (Math.random() - 0.5) * 1.1;
+
+    parts.push({
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+
+      // ✅ slower gravity (floaty)
+      g: (0.085 + Math.random() * 0.045) * dpr, // was ~0.22..0.32
+
+      // sizes
+      w: (5 + Math.random() * 8) * dpr,
+      h: (2 + Math.random() * 6) * dpr,
+
+      // ✅ slower spin
+      rot: Math.random() * Math.PI * 2,
+      vr: (Math.random() - 0.5) * 0.12, // was ~0.25
+
+      color: gold[(Math.random() * gold.length) | 0],
+
+      // ✅ 3× longer life
+      life: 165 + ((Math.random() * 60) | 0) // was ~55..80
+    });
+  }
+
+  let raf = 0;
+
+  function tick() {
+    ctx.clearRect(0, 0, W(), H());
+
+    for (const p of parts) {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // tiny air resistance to make it drift nicely
+      p.vx *= 0.995;
+      p.vy *= 0.995;
+
+      p.vy += p.g;
+      p.rot += p.vr;
+      p.life--;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w * 0.5, -p.h * 0.5, p.w, p.h);
+      ctx.restore();
+    }
+
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const p = parts[i];
+      if (p.life <= 0 || p.y > H() + 80) parts.splice(i, 1);
+    }
+
+    if (parts.length) raf = requestAnimationFrame(tick);
+    else cleanup();
+  }
+
+  function cleanup() {
+    cancelAnimationFrame(raf);
+    window.removeEventListener("resize", onResize);
+    canvas.remove();
+    confettiCleanup = null;
+  }
+
+  confettiCleanup = cleanup;
+  raf = requestAnimationFrame(tick);
+}
+
+
+
+
+
+    // HUD + end
+    const targetEl = document.getElementById("target");
+    const statusEl = document.getElementById("status");
+
+
+// --- Pointer label (show what you clicked, in Swedish, briefly)
+const clickLabelEl = document.getElementById("clickLabel");
+let clickLabelTimer = null;
+
+function getSwedishNameForShape(shape) {
+  const p = (shape && shape.props) ? shape.props : {};
+  // Prefer Swedish fields if you have them
+  return (
+    p.name_sv || p.sv_name || p.namn || p.name_swe || p.name_se ||
+    p.name || p.NAME || p.ADMIN || shape.name ||
+    "(okänd)"
+  );
+}
+
+function showClickLabelAtPointer(text, ms = 900) {
+  if (!clickLabelEl) return;
+
+  if (clickLabelTimer) clearTimeout(clickLabelTimer);
+
+  clickLabelEl.textContent = text;
+
+  // Position at current pointer (screen coords)
+  clickLabelEl.style.left = `${pointerScreenX}px`;
+  clickLabelEl.style.top  = `${pointerScreenY}px`;
+
+  // show
+  clickLabelEl.style.opacity = "1";
+
+  // hide later
+  clickLabelTimer = setTimeout(() => {
+    clickLabelEl.style.opacity = "0";
+  }, ms);
+}
+
+
+
+
+    const triesEl  = document.getElementById("tries");
+    const endEl    = document.getElementById("end");
+    const scoreLine = document.getElementById("scoreLine");
+    const detailLine = document.getElementById("detailLine");
+    const playAgainBtn = document.getElementById("playAgain");
+    function setStatus(msg) { statusEl.textContent = msg || ""; }
+
+
+
+
+    // --- LOAD LIST FIRST (so it can tell us which geojson files to load)
+    const list = await fetchJson(listUrl);
+
+    // Determine geojson URLs:
+    // Priority: URL ?maps= > URL ?map= > list.maps > default
+    let geoUrls = [];
+    if (mapsParam && mapsParam.trim()) {
+      geoUrls = mapsParam.split(",").map(s => s.trim()).filter(Boolean);
+    } else if (legacyMap && legacyMap.trim()) {
+      geoUrls = [legacyMap.trim()];
+    } else if (Array.isArray(list.maps) && list.maps.length) {
+      geoUrls = list.maps.slice();
+    } else {
+      geoUrls = [GEOJSON_URL_DEFAULT];
+    }
+
+    // Load all geojson files
+    const geos = await Promise.all(geoUrls.map(u => fetchJson(u)));
+
+    /**
+     * Build a UNIVERSAL shape index from many geojsons.
+     * Each "shape" is one feature (Polygon/MultiPolygon) with:
+     *  - key: stable id used for matching (string)
+     *  - name: display-ish name
+     *  - source: which geojson index it came from
+     *  - polygons: projected rings
+     *  - bbox
+     */
+    const shapes = buildShapesFromMany(geos);
+
+        for (const s of shapes) {
+        const b = s.bbox;
+        s._drawArea = (b.maxX - b.minX) * (b.maxY - b.minY); // cheap, good enough
+      }
+
+      // Draw big first, small last (small on top)
+ //     shapes.sort((a, b) => (b._drawArea - a._drawArea));
+
+    // Fast lookup: key -> shape
+    const shapeByKey = new Map();
+    for (const s of shapes) shapeByKey.set(s.key, s);
+
+    // Base random-ish colors per shape
+    const baseColorByKey = new Map();
+    function assignBaseColors() {
+	  baseColorByKey.clear();
+
+	  for (const s of shapes) {
+		// fixed color if available
+		const fixed = fixedColorForShape(s);
+		if (fixed != null) {
+		  baseColorByKey.set(s.key, fixed);
+		  continue;
+		}
+
+		// otherwise random-ish palette
+		const color = BASE_COLORS[Math.floor(Math.random() * BASE_COLORS.length)];
+		baseColorByKey.set(s.key, color);
+	  }
+	}
+    assignBaseColors();
+
+    // Targets
+    const allTargets = Array.isArray(list.targets) ? list.targets.slice() : [];
+    if (!allTargets.length) {
+      targetEl.textContent = "(no targets in list)";
+      drawMap();
+      return;
+    }
+
+    let remaining = allTargets.slice();
+    let current = null;
+
+    // 3 tries system
+    let attemptsLeft = 3;
+    let firstTryCorrect = 0;
+
+    // Per-shape result: "hit1" | "hit2" | "hit3" | "fail"
+    const shapeResult = new Map();
+
+const targetKeySet = new Set();
+
+for (const t of allTargets) {
+  const shape = resolveTargetShape(t);
+  if (shape) targetKeySet.add(shape.key);
+}
+
+
+    function borderWidthForZoom() {
+      const z = world.scale.x;
+      return clamp(1.2 / z, 0.35, 2.2);
+    }
+
+    function drawShapePath(gfx, shape) {
+      for (const polygon of shape.polygons) {
+        for (const ring of polygon) {
+          if (!ring || ring.length < 3) continue;
+          gfx.moveTo(ring[0].x, ring[0].y);
+          for (let i = 1; i < ring.length; i++) gfx.lineTo(ring[i].x, ring[i].y);
+          gfx.closePath();
+        }
+      }
+    }
+
+function drawMap() {
+  mapGfx.clear();
+
+  const strokeW = borderWidthForZoom();
+
+  for (const s of shapes) {
+    
+    const result = shapeResult.get(s.key);
+
+    let fill;
+    if (result === "hit1") fill = COLORS.hit1Fill;
+    else if (result === "hit2") fill = COLORS.hit2Fill;
+    else if (result === "hit3") fill = COLORS.hit3Fill;
+    else if (result === "fail") fill = COLORS.failFill;
+    else fill = baseColorByKey.get(s.key) || COLORS.fillFallback;
+
+    const alpha = result ? 0.60 : alphaForShape(s);
+    const strokeA = strokeAlphaForShape(s);
+
+    mapGfx.setStrokeStyle({ width: strokeW, color: COLORS.stroke, alpha: strokeA });
+    mapGfx.beginFill(fill, alpha);
+
+    drawShapePath(mapGfx, s);
+    mapGfx.endFill();
+  }
+}
+
+    drawMap();
+
+    function pickRandomTarget() {
+      if (!remaining.length) return null;
+      const i = Math.floor(Math.random() * remaining.length);
+      return remaining.splice(i, 1)[0];
+    }
+
+    // --- GENERIC target resolution (no "country" assumptions)
+    function normalizeKey(s) {
+      return String(s || "").trim().toLowerCase();
+    }
+
+    function resolveTargetShape(t) {
+    if (!t) return null;
+
+    const candidates = [];
+    if (t.key != null) candidates.push(String(t.key));
+    if (t.id != null) candidates.push(String(t.id));
+    if (t.code != null) candidates.push(String(t.code));
+
+    // 1) Exact match against full keys (rare but supported)
+    for (const c of candidates) {
+      const want = normalizeKey(c);
+      if (!want) continue;
+      const hit = shapeByKey.get(want);
+      if (hit) return hit;
+    }
+
+    // 2) Suffix match (so "caspian sea" matches "src2:caspian sea")
+    for (const c of candidates) {
+      const want = normalizeKey(c);
+      if (!want) continue;
+
+      for (const [k, s] of shapeByKey.entries()) {
+        if (k.endsWith(":" + want)) return s;
+      }
+    }
+
+    // 3) Name/label match
+    const wantName = normalizeKey(t.name || t.label || t.title);
+    if (wantName) {
+      for (const s of shapes) {
+        if (normalizeKey(s.name) === wantName) return s;
+      }
+    }
+
+    return null;
+  }
+
+
+    function showTarget() {
+      if (!current) return;
+      targetEl.textContent = current.label || current.name || current.id || current.key || "(target)";
+      triesEl.textContent = String(attemptsLeft);
+      setStatus("");
+    }
+
+    function advanceToNextTarget() {
+      current = pickRandomTarget();
+      attemptsLeft = 3;
+      if (!current) {
+        finishGame();
+      } else {
+        showTarget();
+      }
+    }
+
+    function finishGame() {
+      const total = allTargets.length;
+      const percent = total ? Math.round((firstTryCorrect / total) * 100) : 0;
+
+      endEl.style.display = "block";
+      scoreLine.textContent = `Score: ${percent}%`;
+      detailLine.textContent = `First-try hits: ${firstTryCorrect} / ${total}`;
+
+      if (percent === 100) {
+  
+  applause.currentTime = 0; // restart if replayed
+  applause.play().catch(() => {});
+  launchConfettiBurst();
+}
+
+
+      hoverGfx.clear();
+    }
+
+    function resetGame() {
+      endEl.style.display = "none";
+      if (confettiCleanup) confettiCleanup();
+      firstTryCorrect = 0;
+      shapeResult.clear();
+      remaining = allTargets.slice();
+
+      // Optional reshuffle
+      // assignBaseColors();
+
+      drawMap();
+      advanceToNextTarget();
+    }
+    playAgainBtn.addEventListener("click", resetGame);
+
+    // Start
+    advanceToNextTarget();
+
+    // Click to focus ONLY (no selecting by mouse click)
+    app.canvas.addEventListener("pointerdown", () => {
+      app.canvas.focus();
+    });
+
+    // --- HIT TESTING (generic shapes)
+    function identifyShapeAt(x, y) {
+	  for (const s of shapes) {
+		if (!targetKeySet.has(s.key)) continue;   // 👈 key line
+		const b = s.bbox;
+		if (x < b.minX || x > b.maxX || y < b.minY || y > b.maxY) continue;
+		if (pointInShape(x, y, s)) return s;
+	  }
+	  return null;
+	}
+
+
+    function pointInShape(x, y, shape) {
+  for (const polygon of shape.polygons) {
+    const outer = polygon[0];
+    if (!outer || outer.length < 3) continue;
+
+    // must be inside outer ring…
+    if (!pointInRing(x, y, outer)) continue;
+
+    // …and NOT inside any hole rings
+    let inHole = false;
+    for (let r = 1; r < polygon.length; r++) {
+      const hole = polygon[r];
+      if (hole && hole.length >= 3 && pointInRing(x, y, hole)) {
+        inHole = true;
+        break;
+      }
+    }
+
+    if (!inHole) return true;
+  }
+  return false;
+}
+
+
+    function pointInRing(x, y, ring) {
+      let inside = false;
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const xi = ring[i].x, yi = ring[i].y;
+        const xj = ring[j].x, yj = ring[j].y;
+        const intersect = ((yi > y) !== (yj > y)) &&
+          (x < (xj - xi) * (y - yi) / ((yj - yi) || 1e-9) + xi);
+        if (intersect) inside = !inside;
+      }
+      return inside;
+    }
+
+    // Hover overlay under POINTER
+    let hoverKey = null;
+    let hoverShape = null;
+    let flashUntil = 0;
+    let flashMode = null;
+    let flashKey = null;
+
+    function updateHoverAndOverlay(nowMs) {
+      const p = pointerToWorld();
+      const hit = identifyShapeAt(p.x, p.y);
+      hoverShape = hit;
+
+      const newKey = hit ? hit.key : null;
+      if (newKey === hoverKey && nowMs > flashUntil) return;
+      hoverKey = newKey;
+
+      hoverGfx.clear();
+      if (!hit) return;
+      // ✅ already found/failed => no hover glow
+      if (shapeResult.has(hit.key)) return;
+
+      if (nowMs <= flashUntil && flashMode === "wrong" && hit.key === flashKey) {
+        hoverGfx.setStrokeStyle({ width: 0, color: COLORS.wrongFill, alpha: 1 });
+        hoverGfx.beginFill(COLORS.wrongFill, 0.65);
+      } else {
+        hoverGfx.setStrokeStyle({ width: 0, color: COLORS.hoverFill, alpha: 1 });
+        hoverGfx.beginFill(COLORS.hoverFill, 0.38);
+      }
+
+      drawShapePath(hoverGfx, hit);
+      hoverGfx.endFill();
+    }
+
+    // Selection (3 tries)
+    function doSelect() {
+      if (performance.now() < inputLockedUntil) return;
+      if (endEl.style.display === "block") return;
+      if (!current) return;
+
+      const targetShape = resolveTargetShape(current);
+      if (!targetShape) {
+        setStatus("⚠️ Target not found in loaded map data");
+        inputLockedUntil = performance.now() + FEEDBACK_PAUSE_MS;
+        setTimeout(advanceToNextTarget, FEEDBACK_PAUSE_MS);
+        return;
+      }
+
+      const targetKey = targetShape.key;
+
+      // already finalized => move on
+      if (shapeResult.has(targetKey)) {
+        advanceToNextTarget();
+        return;
+      }
+
+      const clicked = hoverShape;
+      const ok = !!(clicked && clicked.key === targetKey);
+
+      if (ok) {
+      const attemptNumber = 4 - attemptsLeft; // 1..3
+
+      // ✅ only count first-try hits toward percentage
+      if (attemptNumber === 1) firstTryCorrect++;
+
+      if (attemptNumber === 1) shapeResult.set(targetKey, "hit1");
+      else if (attemptNumber === 2) shapeResult.set(targetKey, "hit2");
+      else shapeResult.set(targetKey, "hit3");
+
+      setStatus(
+        attemptNumber === 1 ? "✅ Correct (1st try)!" :
+        attemptNumber === 2 ? "✅ Correct (2nd try)!" :
+                            "✅ Correct (3rd try)!"
+      );
+
+      successChime();
+      drawMap();
+
+      inputLockedUntil = performance.now() + FEEDBACK_PAUSE_MS;
+      setTimeout(advanceToNextTarget, FEEDBACK_PAUSE_MS);
+      return;
+    }
+
+    // WRONG
+    attemptsLeft--;
+    triesEl.textContent = String(attemptsLeft);
+
+    setStatus(`❌ Wrong! Try again (${attemptsLeft} left)`);
+    beep(180, 0.4, "square", 0.05);
+
+    // ✅ flash red even on 1st/2nd wrong
+    if (hoverShape && !shapeResult.has(hoverShape.key)) {
+      flashMode = "wrong";
+      flashKey = hoverShape.key;
+      flashUntil = performance.now() + 220;
+    }
+
+// Show what you clicked (Swedish name) at the pointer on wrong attempts
+if (hoverShape) {
+  const clickedNameSv = getSwedishNameForShape(hoverShape);
+  showClickLabelAtPointer(clickedNameSv, 900);
+}
+
+
+    if (attemptsLeft > 0) return;
+
+      // FINAL FAIL
+      setStatus("⛔ Out of attempts!");
+      beep(80, 0.4, "square", 0.05);
+
+      flashMode = "wrong";
+      flashUntil = performance.now() + 220;
+
+      inputLockedUntil = performance.now() + FEEDBACK_PAUSE_MS;
+
+      // mark failed and move on
+      shapeResult.set(targetKey, "fail");
+      drawMap();
+
+      setTimeout(advanceToNextTarget, FEEDBACK_PAUSE_MS);
+    }
+
+    // Keyboard controls
+    const keys = new Set();
+ window.addEventListener("keydown", (e) => {
+  if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," ","Enter"].includes(e.key)) e.preventDefault();
+  keys.add(e.key.toLowerCase());
+
+  if (e.key === " " || e.key === "Enter") doSelect();
+}, { passive: false });
+
+    window.addEventListener("keyup", (e) => keys.delete(e.key.toLowerCase()));
+
+    let vx = 0, vy = 0;
+
+    function updateMovement(dt) {
+      let ax = 0, ay = 0;
+
+      const left  = keys.has("a") || keys.has("arrowleft");
+      const right = keys.has("d") || keys.has("arrowright");
+      const up    = keys.has("w") || keys.has("arrowup");
+      const down  = keys.has("s") || keys.has("arrowdown");
+
+      if (left)  ax -= PAN_ACCEL;
+      if (right) ax += PAN_ACCEL;
+      if (up)    ay -= PAN_ACCEL;
+      if (down)  ay += PAN_ACCEL;
+
+      vx += ax * dt;
+      vy += ay * dt;
+
+      const damp = Math.exp(-PAN_DAMP * dt);
+      vx *= damp;
+      vy *= damp;
+
+      const sp = Math.hypot(vx, vy);
+      if (sp > MAX_SPEED) {
+        const k = MAX_SPEED / sp;
+        vx *= k; vy *= k;
+      }
+
+      // inverted pan
+      world.x -= vx * dt;
+      world.y -= vy * dt;
+
+      // Zoom Q/E around POINTER
+      const zoomOut = keys.has("q");
+      const zoomIn  = keys.has("e");
+      if (zoomOut || zoomIn) {
+        const dir = zoomIn ? 1 : -1;
+        const factor = Math.exp(dir * ZOOM_RATE * dt);
+
+        const before = pointerToWorld();
+        const newScale = clamp(world.scale.x * factor, MIN_ZOOM, MAX_ZOOM);
+        world.scale.set(newScale);
+        const after = pointerToWorld();
+
+        world.x += (after.x - before.x) * world.scale.x;
+        world.y += (after.y - before.y) * world.scale.y;
+      }
+
+      clampPanToScreen();
+    }
+
+    // Main loop
+    let lastZ = world.scale.x;
+    app.ticker.add(() => {
+      const dt = app.ticker.deltaMS / 1000;
+      updateMovement(dt);
+      updateHoverAndOverlay(performance.now());
+
+      const z = world.scale.x;
+      if (Math.abs(z - lastZ) > 0.02) {
+        lastZ = z;
+        drawMap();
+      }
+    });
+
+    // Utils
+    async function fetchJson(url) {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) throw new Error(`Failed to load ${url}: ${r.status}`);
+      return await r.json();
+    }
+
+    /**
+     * Build shapes from many geojsons.
+     * Key selection rules (in order):
+     *  - properties.id / properties.ID / properties.key
+     *  - properties.ISO_A3 / properties.iso_a3 / properties.ADM0_A3 (useful for countries)
+     *  - properties.ADMIN / properties.name / properties.NAME / properties.Name
+     *  - fallback: "src{mapIndex}:feat{featureIndex}"
+     *
+     * Note: keys are normalized to lowercase strings for matching.
+     */
+    function buildShapesFromMany(geojsonArray) {
+      const out = [];
+
+      for (let srcIndex = 0; srcIndex < geojsonArray.length; srcIndex++) {
+        const geo = geojsonArray[srcIndex];
+        const feats = geo.features || [];
+
+        for (let fi = 0; fi < feats.length; fi++) {
+          const f = feats[fi];
+          const props = f.properties || {};
+          const geom = f.geometry;
+          if (!geom) continue;
+
+          // Only polygonal shapes are selectable in this game
+          let polyList = [];
+          if (geom.type === "Polygon") polyList = [geom.coordinates];
+          else if (geom.type === "MultiPolygon") polyList = geom.coordinates.slice();
+          else continue;
+
+          const name =
+            props.ADMIN || props.name || props.NAME || props.Name || props.title || props.label || "Unknown";
+
+          const rawKey =
+            props.key || props.KEY || props.id || props.ID ||
+            props.ISO_A3 || props.iso_a3 || props.ADM0_A3 ||
+            name || `src${srcIndex}:feat${fi}`;
+
+          const key = (`src${srcIndex}:` + String(rawKey)).trim().toLowerCase();
+
+          let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+          const projected = polyList.map(polygon => {
+            return polygon.map(ring => {
+              const pr = ring.map(([lon, lat]) => {
+                const pt = projectLonLat(lon, lat);
+                if (pt.x < minX) minX = pt.x;
+                if (pt.y < minY) minY = pt.y;
+                if (pt.x > maxX) maxX = pt.x;
+                if (pt.y > maxY) maxY = pt.y;
+                return pt;
+              });
+              return pr;
+            });
+          });
+
+          out.push({
+			  key,
+			  name,
+			  source: srcIndex,
+			  props,              // 👈 keep original properties
+			  polygons: projected,
+			  bbox: { minX, minY, maxX, maxY }
+			});
+        }
+      }
+
+      return out;
+    }
+
+
+
+  })().catch(err => {
+    console.error(err);
+    const el = document.getElementById("target");
+    const st = document.getElementById("status");
+    if (el) el.textContent = "Error loading";
+    if (st) st.textContent = String(err.message || err);
+  });
+  </script>
+</body>
+</html>
