@@ -321,13 +321,13 @@
       fillFallback: 0x256344,
       stroke:     0x000000,
       hoverFill:  0xffffff,
-      wrongFill:  0xff4d4d,
+      wrongFill:  0xff0000,
 
       // 3-tries result fills
-      hit1Fill:   0x02fa3c,
-      hit2Fill:   0xffa200,
-      hit3Fill:   0xffa200,
-      failFill:   0xf52222
+      hit1Fill:   0x41e02f,
+      hit2Fill:   0xf7731b,
+      hit3Fill:   0xf7731b,
+      failFill:   0xde1818
     };
 
     const BASE_COLORS = [
@@ -354,6 +354,8 @@ const FIXED_KIND_COLORS = {
   land:      0x57b378,
   city:   0x000001
 };
+
+
 
 // Opacity rules: only these categories get lower alpha
 const ALPHA_BY_KIND = {
@@ -788,14 +790,21 @@ const clickLabelEl = document.getElementById("clickLabel");
 let clickLabelTimer = null;
 
 function getSwedishNameForShape(shape) {
-  const p = (shape && shape.props) ? shape.props : {};
-  // Prefer Swedish fields if you have them
+  if (!shape) return "(okänd)";
+
+  // 1) Prefer the target list name (Swedish)
+  const fromList = targetNameByKey.get(shape.key);
+  if (fromList) return fromList;
+
+  // 2) Fallback to GeoJSON props (if not in list for some reason)
+  const p = shape.props || {};
   return (
     p.name_sv || p.sv_name || p.namn || p.name_swe || p.name_se ||
     p.name || p.NAME || p.ADMIN || shape.name ||
     "(okänd)"
   );
 }
+
 
 function showClickLabelAtPointer(text, ms = 900) {
   if (!clickLabelEl) return;
@@ -911,10 +920,23 @@ function showClickLabelAtPointer(text, ms = 900) {
     const shapeResult = new Map();
 
 const targetKeySet = new Set();
+const targetNameByKey = new Map(); // shape.key -> Swedish display name from list
+
+function targetDisplayName(t) {
+  // Prefer Swedish list fields (your list's "name" is Swedish)
+  return String(t?.name || t?.label || t?.title || t?.id || t?.key || "").trim();
+}
 
 for (const t of allTargets) {
   const shape = resolveTargetShape(t);
-  if (shape) targetKeySet.add(shape.key);
+  if (!shape) continue;
+
+  targetKeySet.add(shape.key);
+
+  const n = targetDisplayName(t);
+  if (n && !targetNameByKey.has(shape.key)) {
+    targetNameByKey.set(shape.key, n);
+  }
 }
 
 
@@ -950,9 +972,9 @@ function drawMap() {
     else if (result === "fail") fill = COLORS.failFill;
     else fill = baseColorByKey.get(s.key) || COLORS.fillFallback;
 
-    const alpha = result ? 0.60 : alphaForShape(s);
+    const alpha = result ? 1 : alphaForShape(s);
     const strokeA = strokeAlphaForShape(s);
-
+  
     mapGfx.setStrokeStyle({ width: strokeW, color: COLORS.stroke, alpha: strokeA });
     mapGfx.beginFill(fill, alpha);
 
@@ -1142,10 +1164,10 @@ function drawMap() {
 
       if (nowMs <= flashUntil && flashMode === "wrong" && hit.key === flashKey) {
         hoverGfx.setStrokeStyle({ width: 0, color: COLORS.wrongFill, alpha: 1 });
-        hoverGfx.beginFill(COLORS.wrongFill, 0.65);
+        hoverGfx.beginFill(COLORS.wrongFill, 1);
       } else {
         hoverGfx.setStrokeStyle({ width: 0, color: COLORS.hoverFill, alpha: 1 });
-        hoverGfx.beginFill(COLORS.hoverFill, 0.38);
+        hoverGfx.beginFill(COLORS.hoverFill, 0.38); 
       }
 
       drawShapePath(hoverGfx, hit);
