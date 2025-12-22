@@ -128,6 +128,7 @@
     { "type": "country", "id": "NOR", "name": "Norge" },
     { "type": "country", "id": "POL", "name": "Polen" },
     { "type": "country", "id": "PRT", "name": "Portugal" },
+	  	{ "type": "country", "id": "LUX", "name": "Luxemburg" },
     { "type": "country", "id": "ROU", "name": "Rumänien" },
     { "type": "country", "id": "RUS", "name": "Ryssland" },
     { "type": "country", "id": "SRB", "name": "Serbien" },
@@ -175,3 +176,4 @@
 		
   ]
 }
+
