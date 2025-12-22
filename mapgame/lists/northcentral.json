@@ -1,0 +1,22 @@
+{
+  "targets": [
+    { "type": "country", "id": "CAN", "name": "Kanada" },
+    { "type": "country", "id": "USA", "name": "USA" },
+    { "type": "country", "id": "MEX", "name": "Mexiko" },
+
+    { "type": "country", "id": "BLZ", "name": "Belize" },
+    { "type": "country", "id": "GTM", "name": "Guatemala" },
+    { "type": "country", "id": "HND", "name": "Honduras" },
+    { "type": "country", "id": "SLV", "name": "El Salvador" },
+    { "type": "country", "id": "NIC", "name": "Nicaragua" },
+    { "type": "country", "id": "CRI", "name": "Costa Rica" },
+    { "type": "country", "id": "PAN", "name": "Panama" },
+
+    { "type": "country", "id": "CUB", "name": "Kuba" },
+    { "type": "country", "id": "HTI", "name": "Haiti" },
+    { "type": "country", "id": "DOM", "name": "Dominikanska republiken" },
+    { "type": "country", "id": "JAM", "name": "Jamaica" },
+    { "type": "country", "id": "TTO", "name": "Trinidad och Tobago" },
+    { "type": "country", "id": "BHS", "name": "Bahamas" }
+  ]
+}
