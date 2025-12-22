@@ -23,6 +23,7 @@
     { "type": "country", "id": "ITA", "name": "Italien" },
     { "type": "country", "id": "LTU", "name": "Litauen" },
     { "type": "country", "id": "LVA", "name": "Lettland" },
+    	{ "type": "country", "id": "LUX", "name": "Luxemburg" },
     { "type": "country", "id": "MKD", "name": "Nordmakedonien" },
     { "type": "country", "id": "MDA", "name": "Moldavien" },
     { "type": "country", "id": "MNE", "name": "Montenegro" },
@@ -40,3 +41,4 @@
     { "type": "country", "id": "XKX", "name": "Kosovo" }
   ]
 }
+
