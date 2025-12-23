@@ -1174,7 +1174,7 @@
       "properties": {
         "id": "panama-canal",
         "name": "Panamakanalen",
-        "category": "sea"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
