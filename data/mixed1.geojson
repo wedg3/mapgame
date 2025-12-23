@@ -140,7 +140,7 @@
       "properties": {
         "id": "svalbard",
         "name": "Svalbard",
-        "category": "archipelago"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -187,7 +187,7 @@
       "properties": {
         "id": "sicily",
         "name": "Sicilien",
-        "category": "island"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -254,7 +254,7 @@
       "properties": {
         "id": "tasmania",
         "name": "Tasmanien",
-        "category": "island"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -325,7 +325,7 @@
       "properties": {
         "id": "borneo",
         "name": "Borneo",
-        "category": "island"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -460,7 +460,7 @@
       "properties": {
         "id": "galapagos",
         "name": "Galapagosöarna",
-        "category": "archipelago"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -511,7 +511,7 @@
       "properties": {
         "id": "sinai-peninsula",
         "name": "Sinaihalvön",
-        "category": "peninsula"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -546,7 +546,7 @@
       "properties": {
         "id": "korean-peninsula",
         "name": "Koreahalvön",
-        "category": "peninsula"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -617,7 +617,7 @@
       "properties": {
         "id": "arabian-peninsula",
         "name": "Arabiska halvön",
-        "category": "peninsula"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -676,7 +676,7 @@
       "properties": {
         "id": "yucatan-peninsula",
         "name": "Yucatánhalvön",
-        "category": "peninsula"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -727,7 +727,7 @@
       "properties": {
         "id": "cape-of-good-hope",
         "name": "Godahoppsudden",
-        "category": "cape"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
@@ -778,7 +778,7 @@
       "properties": {
         "id": "cape-horn",
         "name": "Kap Horn",
-        "category": "cape"
+        "category": "region"
       },
       "geometry": {
         "coordinates": [
