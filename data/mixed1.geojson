@@ -6,7 +6,7 @@
       "properties": {
         "id": "gulf-of-mexico",
         "name": "Mexikanska golfen",
-        "category": "bay"
+        "category": "sea"
       },
       "geometry": {
         "coordinates": [
@@ -97,7 +97,7 @@
       "properties": {
         "id": "strait-of-gibraltar",
         "name": "Gibraltarsund",
-        "category": "strait"
+        "category": "sea"
       },
       "geometry": {
         "coordinates": [
@@ -1174,7 +1174,7 @@
       "properties": {
         "id": "panama-canal",
         "name": "Panamakanalen",
-        "category": "canal"
+        "category": "sea"
       },
       "geometry": {
         "coordinates": [
@@ -1209,7 +1209,7 @@
       "properties": {
         "id": "gulf-of-finland",
         "name": "Finska viken",
-        "category": "bay"
+        "category": "sea"
       },
       "geometry": {
         "coordinates": [
@@ -1284,7 +1284,7 @@
       "properties": {
         "id": "bay-of-bengal",
         "name": "Bengaliska viken",
-        "category": "bay"
+        "category": "sea"
       },
       "geometry": {
         "coordinates": [
@@ -1331,7 +1331,7 @@
       "properties": {
         "id": "gulf-of-guinea",
         "name": "Guineabukten",
-        "category": "bay"
+        "category": "sea"
       },
       "geometry": {
         "coordinates": [
@@ -1382,7 +1382,7 @@
       "properties": {
         "id": "strait-of-malacca",
         "name": "Malackasundet",
-        "category": "strait"
+        "category": "sea"
       },
       "geometry": {
         "coordinates": [
