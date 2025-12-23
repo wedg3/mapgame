@@ -32,7 +32,7 @@
     { "type": "country", "id": "MWI", "name": "Malawi" },
     { "type": "country", "id": "MLI", "name": "Mali" },
     { "type": "country", "id": "MRT", "name": "Mauretanien" },
-
+	{ "type": "country", "id": "LUX", "name": "Luxemburg" },
     { "type": "country", "id": "MAR", "name": "Marocko" },
     { "type": "country", "id": "MOZ", "name": "Moçambique" },
     { "type": "country", "id": "NAM", "name": "Namibia" },
@@ -41,7 +41,7 @@
     { "type": "country", "id": "RWA", "name": "Rwanda" },
 { "type": "country", "id": "SWZ", "name": "Eswatini" },
     { "type": "country", "id": "SEN", "name": "Senegal" },
-
+{ "type": "country", "id": "ARE", "name": "Förenade Arabemiraten" },
     { "type": "country", "id": "SLE", "name": "Sierra Leone" },
     { "type": "country", "id": "SOM", "name": "Somalia" },
     { "type": "country", "id": "ZAF", "name": "Sydafrika" },
@@ -57,7 +57,6 @@
     { "type": "country", "id": "ARM", "name": "Armenien" },
     { "type": "country", "id": "AZE", "name": "Azerbajdzjan" },
     { "type": "country", "id": "BGD", "name": "Bangladesh" },
-    { "type": "country", "id": "BHR", "name": "Bahrain" },
     { "type": "country", "id": "BRN", "name": "Brunei" },
     { "type": "country", "id": "BTN", "name": "Bhutan" },
     { "type": "country", "id": "CHN", "name": "Kina" },
@@ -128,7 +127,6 @@
     { "type": "country", "id": "NOR", "name": "Norge" },
     { "type": "country", "id": "POL", "name": "Polen" },
     { "type": "country", "id": "PRT", "name": "Portugal" },
-	  	{ "type": "country", "id": "LUX", "name": "Luxemburg" },
     { "type": "country", "id": "ROU", "name": "Rumänien" },
     { "type": "country", "id": "RUS", "name": "Ryssland" },
     { "type": "country", "id": "SRB", "name": "Serbien" },
@@ -176,4 +174,3 @@
 		
   ]
 }
-
