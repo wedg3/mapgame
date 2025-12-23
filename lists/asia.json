@@ -4,7 +4,7 @@
     { "type": "country", "id": "ARM", "name": "Armenien" },
     { "type": "country", "id": "AZE", "name": "Azerbajdzjan" },
     { "type": "country", "id": "BGD", "name": "Bangladesh" },
-    { "type": "country", "id": "BHR", "name": "Bahrain" },
+
     { "type": "country", "id": "BRN", "name": "Brunei" },
     { "type": "country", "id": "BTN", "name": "Bhutan" },
     { "type": "country", "id": "CHN", "name": "Kina" },
@@ -19,6 +19,7 @@
     { "type": "country", "id": "JPN", "name": "Japan" },
     { "type": "country", "id": "KAZ", "name": "Kazakstan" },
     { "type": "country", "id": "KGZ", "name": "Kirgizistan" },
+    { "type": "country", "id": "ARE", "name": "Förenade Arabemiraten" },
     { "type": "country", "id": "KHM", "name": "Kambodja" },
     { "type": "country", "id": "KOR", "name": "Sydkorea" },
     { "type": "country", "id": "KWT", "name": "Kuwait" },
@@ -47,3 +48,4 @@
     { "type": "country", "id": "YEM", "name": "Jemen" }
   ]
 }
+
