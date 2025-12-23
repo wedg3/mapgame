@@ -1,0 +1,31 @@
+{
+  "targets": [
+    { "type": "archipelago", "id": "svalbard", "name": "Svalbard" },
+    { "type": "island", "id": "sicily", "name": "Sicilien" },
+    { "type": "island", "id": "tasmania", "name": "Tasmanien" },
+    { "type": "island", "id": "borneo", "name": "Borneo" },
+    { "type": "archipelago", "id": "galapagos", "name": "Galapagosöarna" },
+
+    { "type": "peninsula", "id": "sinai-peninsula", "name": "Sinaihalvön" },
+    { "type": "peninsula", "id": "korean-peninsula", "name": "Koreahalvön" },
+    { "type": "peninsula", "id": "arabian-peninsula", "name": "Arabiska halvön" },
+    { "type": "peninsula", "id": "yucatan-peninsula", "name": "Yucatánhalvön" },
+
+    { "type": "cape", "id": "cape-of-good-hope", "name": "Godahoppsudden" },
+    { "type": "cape", "id": "cape-horn", "name": "Kap Horn" },
+
+    { "type": "region", "id": "siberia", "name": "Sibirien" },
+    { "type": "region", "id": "antarctica", "name": "Antarktis" },
+    { "type": "region", "id": "baltic-region", "name": "Baltikum" },
+
+    { "type": "canal", "id": "panama-canal", "name": "Panamakanalen" },
+
+    { "type": "bay", "id": "gulf-of-finland", "name": "Finska viken" },
+    { "type": "bay", "id": "bay-of-bengal", "name": "Bengaliska viken" },
+    { "type": "bay", "id": "gulf-of-guinea", "name": "Guineabukten" },
+    { "type": "bay", "id": "gulf-of-mexico", "name": "Mexikanska golfen" },
+
+    { "type": "strait", "id": "strait-of-malacca", "name": "Malackasundet" },
+    { "type": "strait", "id": "strait-of-gibraltar", "name": "Gibraltarsund" }
+  ]
+}
