@@ -412,7 +412,7 @@ function alphaForShape(shape) {
 function strokeAlphaForShape(shape) {
   const kind = inferKindFromProps(shape.props || {});
   // no edges for these natural features
-    return (kind === "river" || kind === "rivers" || kind === "lake" || kind === "region" || kind === "desert" || kind === "ocean" || kind === "sea" ||
+    return (kind === "river" || kind === "rivers" || kind === "region" || kind === "desert" || kind === "ocean" || kind === "sea" ||
           kind === "range" || kind === "mountain_range" || kind === "mountain" || kind === "mountains")
     ? 0
     : 1;
@@ -1463,6 +1463,7 @@ if (hoverShape) {
   
 </body>
 </html>
+
 
 
 
