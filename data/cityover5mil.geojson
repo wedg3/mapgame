@@ -35,7 +35,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "id": "mumbai", "name": "Mumbai", "category": "city", "pop_est_millions": 22 },
+      "properties": { "id": "mumbai", "name": "Bombay", "category": "city", "pop_est_millions": 22 },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[[72.5277, 19.4260],[73.2277, 19.4260],[73.2277, 18.7260],[72.5277, 18.7260],[72.5277, 19.4260]]]
@@ -83,7 +83,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "id": "kolkata", "name": "Kolkata", "category": "city", "pop_est_millions": 15 },
+      "properties": { "id": "kolkata", "name": "Calkutta", "category": "city", "pop_est_millions": 15 },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[[88.0139, 22.9226],[88.7139, 22.9226],[88.7139, 22.2226],[88.0139, 22.2226],[88.0139, 22.9226]]]
@@ -131,7 +131,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "id": "cairo", "name": "Cairo", "category": "city", "pop_est_millions": 21 },
+      "properties": { "id": "cairo", "name": "Kairo", "category": "city", "pop_est_millions": 21 },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[[30.8857, 30.3944],[31.5857, 30.3944],[31.5857, 29.6944],[30.8857, 29.6944],[30.8857, 30.3944]]]
@@ -147,7 +147,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "id": "moscow", "name": "Moscow", "category": "city", "pop_est_millions": 13 },
+      "properties": { "id": "moscow", "name": "Moskva", "category": "city", "pop_est_millions": 13 },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[[37.2673, 56.1058],[37.9673, 56.1058],[37.9673, 55.4058],[37.2673, 55.4058],[37.2673, 56.1058]]]
@@ -267,3 +267,4 @@
     }
   ]
 }
+
