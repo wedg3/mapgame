@@ -380,6 +380,8 @@ const FIXED_KIND_COLORS = {
   water:     0x2a7bd6,
   sea:     0x2a7bd6,
 
+	region:    0xfffff5,
+
   coastline: 0x3aa17a,
   land:      0x57b378,
   city:   0x000001
@@ -395,6 +397,7 @@ const ALPHA_BY_KIND = {
   sea: 0.15,
   range: 0.85,
     desert: 0.45,
+	region: 0.25,
   mountain_range: 0.45,
   mountain: 0.45,
   mountains: 0.45
@@ -441,6 +444,7 @@ function inferKindFromProps(props = {}) {
     if (blob.includes("sea")) return "sea";
   if (blob.includes("mount")) return "mountain";
   if (blob.includes("range")) return "range";
+	 if (blob.includes("region")) return "region";
    if (blob.includes("desert")) return "desert";
   if (blob.includes("coast")) return "coastline";
   if (blob.includes("lake")) return "lake";
@@ -1459,3 +1463,4 @@ if (hoverShape) {
   
 </body>
 </html>
+
