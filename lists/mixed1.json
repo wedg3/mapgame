@@ -17,6 +17,7 @@
     { "type": "region", "id": "siberia", "name": "Sibirien" },
     { "type": "region", "id": "antarctica", "name": "Antarktis" },
     { "type": "region", "id": "baltic-region", "name": "Baltikum" },
+    { "type": "lake", "id": "south-china-sea", "name": "Sydkinesiska Havet" },
 
     { "type": "canal", "id": "panama-canal", "name": "Panamakanalen" },
 
